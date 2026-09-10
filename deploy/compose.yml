@@ -1,14 +1,14 @@
-name: polylove-crypto
+name: tradedee
 services:
   postgres:
     image: postgres:17-alpine
     environment:
-      POSTGRES_DB: polylove
-      POSTGRES_USER: polylove
+      POSTGRES_DB: tradedee
+      POSTGRES_USER: tradedee
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a strong database password}
     volumes: [postgres_data:/var/lib/postgresql/data]
     healthcheck:
-      test: [CMD-SHELL, "pg_isready -U polylove"]
+      test: [CMD-SHELL, "pg_isready -U tradedee"]
       interval: 5s
       retries: 20
     restart: unless-stopped
@@ -16,7 +16,7 @@ services:
     build: { context: .., dockerfile: deploy/Dockerfile, target: runtime }
     env_file: ../.env
     environment:
-      DATABASE_URL: postgresql://polylove:${POSTGRES_PASSWORD}@postgres:5432/polylove
+      DATABASE_URL: postgresql://tradedee:${POSTGRES_PASSWORD}@postgres:5432/tradedee
       APP_ORIGIN: https://${DOMAIN}
       BIND_HOST: 0.0.0.0
       TRUST_PROXY: "true"
@@ -28,7 +28,7 @@ services:
     command: [node, apps/api/src/worker.js]
     env_file: ../.env
     environment:
-      DATABASE_URL: postgresql://polylove:${POSTGRES_PASSWORD}@postgres:5432/polylove
+      DATABASE_URL: postgresql://tradedee:${POSTGRES_PASSWORD}@postgres:5432/tradedee
       APP_ORIGIN: https://${DOMAIN}
     depends_on:
       postgres: { condition: service_healthy }
@@ -37,11 +37,13 @@ services:
     build: { context: .., dockerfile: deploy/Dockerfile, target: web }
     environment:
       DOMAIN: ${DOMAIN:?Set domain}
-    ports: ["80:80", "443:443"]
-    volumes: [caddy_data:/data, caddy_config:/config]
+    command: [caddy, run, --config, /etc/caddy/Caddyfile.tunnel, --adapter, caddyfile]
     depends_on: [api]
+    restart: unless-stopped
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: [tunnel, --no-autoupdate, run, --token, "${TUNNEL_TOKEN:?Set Cloudflare tunnel token}"]
+    depends_on: [web]
     restart: unless-stopped
 volumes:
   postgres_data:
-  caddy_data:
-  caddy_config:

@@ -7,13 +7,15 @@ Thai, mascot-led crypto market reading: BTC/ETH/SOL Spot, Email + Google account
 1. Install Node 22+ and PostgreSQL 17. Run `npm install`.
 2. Merge the new entries from `.env.example` into your private `.env`; do not overwrite existing credentials.
 3. Set `DATABASE_URL`, `APP_ORIGIN=http://localhost:3000`, `ADMIN_EMAIL` and a random 32-byte hex `QUEUE_ENCRYPTION_KEY`. The key encrypts queued account emails and OAuth state; keep it stable and private.
-4. Expose PostgreSQL only on loopback, or use an existing reachable instance. The original root compose file deliberately has no published DB port. The current verification instance is separate: `polylove-crypto-check`, localhost port 55432, disposable test data only.
+4. Expose PostgreSQL only on loopback, or use an existing reachable instance. The original root compose file deliberately has no published DB port. The current verification instance is separate, localhost port 55432, with disposable test data only.
 5. Run `npm run db:migrate`, `npm run dev` and, in another terminal, `npm run worker`.
 6. Open http://localhost:3000. The Vite proxy forwards same-origin API requests to port 8787.
 
 The real entry point is `apps/api/src/index.js` → `platform.js`. Legacy Polymarket source/tests remain for reference but are not mounted by this server; no Python runtime is needed for Crypto.
 
 ## External setup
+
+For Cloudflare Tunnel deployment, use [the TradeDee deployment guide](docs/cloudflare-tunnel.md). The MCP/API stack still requires a Docker-capable host running PostgreSQL; Cloudflare supplies the public HTTPS edge and tunnel, not this runtime.
 
 - Google: create an OAuth web client, configure the consent screen and callback `APP_ORIGIN/api/v1/auth/google/callback`. Set client ID/secret. Explicit linking is required for matching email accounts.
 - Resend: verify a sending domain and set `RESEND_API_KEY`/`EMAIL_FROM`. Registration queues an encrypted email; it never pretends mail was delivered without provider success.

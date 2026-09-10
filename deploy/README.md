@@ -1,6 +1,6 @@
 # Production runbook
 
-Deploy from `/opt/polylove` on a Linux VPS with Docker Compose and Node 22. No server has been provisioned by this implementation.
+Deploy from `/opt/tradedee` on a Linux Docker host. The default compose now uses Cloudflare Tunnel; see [Cloudflare Tunnel setup](../docs/cloudflare-tunnel.md). No server, tunnel or hostname has been provisioned by this implementation.
 
 1. Prepare `.env` using `.env.example`. Use a hex database password to avoid URL escaping errors, a real DOMAIN, ADMIN_EMAIL, independent random queue and backup keys, and the external provider credentials.
 2. Point DOMAIN DNS at the VPS. Open 80/443 only; PostgreSQL and API have no public host ports.

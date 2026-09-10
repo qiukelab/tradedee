@@ -19,3 +19,4 @@ CMD ["node","apps/api/src/index.js"]
 FROM caddy:2-alpine AS web
 COPY --from=build /app/apps/web/dist /srv
 COPY deploy/Caddyfile /etc/caddy/Caddyfile
+COPY deploy/Caddyfile.tunnel /etc/caddy/Caddyfile.tunnel
