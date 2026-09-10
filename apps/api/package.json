@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
+    "mcp:local": "node src/mcp-stdio.js",
     "test": "node --test src/**/*.test.js"
   },
   "dependencies": {

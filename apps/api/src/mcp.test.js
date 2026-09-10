@@ -88,7 +88,7 @@ test('MCP authenticates admin, exposes only three tools and stores immutable pri
   const init = () => app.request('/mcp', { method: 'POST', headers: { authorization: 'Bearer ' + token, 'content-type': 'application/json', accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'test', version: '1' } } }) });
   const response = await init();
   assert.equal(response.status, 200);
-  assert.equal((await response.json()).result.serverInfo.name, 'polylove-admin');
+  assert.equal((await response.json()).result.serverInfo.name, 'tradedee-admin');
   await db.query('UPDATE users SET suspended=true WHERE id=$1', [actor]);
   assert.equal((await init()).status, 403);
   assert.equal((await client.callTool({ name: 'get_market_news', arguments: { symbol: 'BTCUSDT' } })).isError, true);

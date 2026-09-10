@@ -25,7 +25,7 @@ async function news(db, symbol) {
   return (await db.query("SELECT id,title,summary,url,published_at FROM news WHERE $1=ANY(symbols) AND published_at<=now() AND published_at>now()-interval '3 days' ORDER BY published_at DESC LIMIT 12", [symbol])).rows;
 }
 export function createAdminMcp(db, actor) {
-  const server = new McpServer({ name: 'polylove-admin', version: '1.0.0' });
+  const server = new McpServer({ name: 'tradedee-admin', version: '1.0.0' });
   function tool(name, description, inputSchema, readOnly, fn) {
     server.registerTool(name, {
       description, inputSchema,

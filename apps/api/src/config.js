@@ -22,4 +22,5 @@ export const config = {
   mcpAdminId: process.env.MCP_ADMIN_USER_ID,
   mcpClientId: process.env.MCP_OAUTH_CLIENT_ID,
   mcpRedirectUri: process.env.MCP_OAUTH_REDIRECT_URI,
+  mcpLocalAdminId: process.env.MCP_LOCAL_ADMIN_ID,
 };
