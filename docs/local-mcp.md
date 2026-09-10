@@ -2,7 +2,7 @@
 
 Use this mode for a trusted local MCP client that can start a Node process, such as MCP Inspector, VS Code or Claude Desktop. It opens no HTTP port and does not need Cloudflare, a domain, OAuth or an MCP bearer token. The local operating-system account that can launch this command is the trust boundary.
 
-1. Start PostgreSQL and run the TradeDee API worker so market candles are current.
+1. Create your private `.env` first: `Copy-Item .env.example .env`. Set a real `POSTGRES_PASSWORD`, then replace the matching `change-me` segment in `DATABASE_URL`. Start the local database with `docker compose up -d postgres`. It is available only at `127.0.0.1:5432`. Run the TradeDee API worker so market candles are current.
 2. If exactly one verified, active local admin exists, TradeDee selects it automatically. For a new local test database, run:
 
 ```powershell
