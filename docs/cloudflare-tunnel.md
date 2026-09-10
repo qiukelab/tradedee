@@ -25,3 +25,7 @@ The deployed `web` container deliberately serves HTTP only to `cloudflared`; Clo
 Set `MCP_OAUTH_CLIENT_ID` and `MCP_OAUTH_REDIRECT_URI` to the values accepted by the MCP client. The redirect URI must be HTTPS and exact. Set `APP_ORIGIN` to the same public hostname. Restart `api` and `worker`, sign in as an admin, then connect at `https://<your domain>/mcp`. The admin still must approve drafts; MCP has no publish tool.
 
 No tunnel, hostname, OAuth client, Google, Resend, Telegram, OpenRouter, backup target, or Cloudflare deployment was created by writing this guide. Do not put the tunnel token, passwords or API keys in GitHub issues, commits, or chat.
+
+## Static Pages preview
+
+The Cloudflare Pages project `tradedee` was created and a static build was deployed on 2026-09-10 at `https://tradedee.pages.dev`. This reserves a free Pages subdomain for the public visual preview. It does **not** host `/api`, `/mcp`, OAuth, sessions, PostgreSQL, the worker, or a production registration flow. Do not set `APP_ORIGIN` to this Pages URL and do not use it as the MCP endpoint. Keep the API-backed application on a named Tunnel hostname once a controlled domain is available.
