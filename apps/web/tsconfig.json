@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "target": "ES2022", "useDefineForClassFields": true, "lib": ["ESNext", "DOM"], "types": ["vite/client", "node"], "strict": true, "module": "ESNext", "moduleResolution": "bundler", "jsx": "react-jsx", "noEmit": true },
+  "include": ["src"]
+}

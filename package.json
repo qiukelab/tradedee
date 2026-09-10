@@ -1,0 +1,25 @@
+{
+  "name": "polylove",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm run api:dev\" \"npm run web\"",
+    "web": "npm --prefix apps/web run dev",
+    "api:dev": "npm --workspace @polylove/api run dev",
+    "api:start": "npm --workspace @polylove/api run start",
+    "worker": "node apps/api/src/worker.js",
+    "db:migrate": "node scripts/migrate.mjs",
+    "test:browser": "npm --prefix apps/web run test:crypto",
+    "test:soak": "node scripts/soak.mjs",
+    "test": "npm run test --workspaces --if-present",
+    "test:web": "npm --prefix apps/web test",
+    "build:web": "npm --prefix apps/web run build",
+    "check": "npm --prefix apps/web run check"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

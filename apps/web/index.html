@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TradeDee</title>
+    <style>
+      html, body, #root { min-height: 100%; margin: 0; background: #fcfaf5; }
+      #boot-status { display: grid; min-height: 100vh; place-content: center; color: #536378; font: 16px system-ui, sans-serif; }
+      #boot-status strong { color: #315b88; font-size: 24px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div id="boot-status"><strong>polylove</strong><span>กำลังเปิดพื้นที่เรียนรู้… / Opening your learning space…</span></div></div>
+    <script>
+      const showStartupError = (message) => {
+        const status = document.getElementById("boot-status");
+        if (status) status.textContent = `Unable to start terminal: ${message}`;
+      };
+      window.addEventListener("error", (event) => showStartupError(event.message));
+      window.addEventListener("unhandledrejection", (event) => showStartupError(event.reason?.message ?? "Unknown startup error"));
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+.env
+data/
+artifacts/
+.env.*.local
+backups/
+.claude/
+.impeccable/
+*.tsbuildinfo

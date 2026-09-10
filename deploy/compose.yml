@@ -1,0 +1,47 @@
+name: polylove-crypto
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: polylove
+      POSTGRES_USER: polylove
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a strong database password}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U polylove"]
+      interval: 5s
+      retries: 20
+    restart: unless-stopped
+  api:
+    build: { context: .., dockerfile: deploy/Dockerfile, target: runtime }
+    env_file: ../.env
+    environment:
+      DATABASE_URL: postgresql://polylove:${POSTGRES_PASSWORD}@postgres:5432/polylove
+      APP_ORIGIN: https://${DOMAIN}
+      BIND_HOST: 0.0.0.0
+      TRUST_PROXY: "true"
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: unless-stopped
+  worker:
+    build: { context: .., dockerfile: deploy/Dockerfile, target: runtime }
+    command: [node, apps/api/src/worker.js]
+    env_file: ../.env
+    environment:
+      DATABASE_URL: postgresql://polylove:${POSTGRES_PASSWORD}@postgres:5432/polylove
+      APP_ORIGIN: https://${DOMAIN}
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: unless-stopped
+  web:
+    build: { context: .., dockerfile: deploy/Dockerfile, target: web }
+    environment:
+      DOMAIN: ${DOMAIN:?Set domain}
+    ports: ["80:80", "443:443"]
+    volumes: [caddy_data:/data, caddy_config:/config]
+    depends_on: [api]
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

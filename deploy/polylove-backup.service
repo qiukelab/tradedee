@@ -1,0 +1,7 @@
+[Unit]
+Description=Polylove encrypted offsite backup
+After=docker.service
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/polylove
+ExecStart=/usr/bin/node scripts/backup.mjs
